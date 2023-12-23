@@ -137,13 +137,17 @@
     <ClCompile Include="ConsoleApplication_MEI_keylogger_bot.cpp" />
     <ClCompile Include="GUI.cpp" />
     <ClCompile Include="Logger.cpp" />
+    <ClCompile Include="MailSender.cpp" />
+    <ClCompile Include="Sender.cpp" />
     <ClCompile Include="TGSender.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="GUI.h" />
     <ClInclude Include="Logger.h" />
+    <ClInclude Include="MailSender.h" />
     <ClInclude Include="resource.h" />
-    <ClInclude Include="TGSender.h" />
+    <ClInclude Include="Sender.h" />
+    <ClInclude Include="TgSender.h" />
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="ConsoleApplication_MEI_keylogger_bot.rc" />
