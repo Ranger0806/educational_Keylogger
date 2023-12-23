@@ -26,16 +26,15 @@ private:
 	HKL kLayout;
 	wchar_t wChar;
 	Logger();
-public:
-	static Logger* getInstance();
 	void put(char simbol);
 	string get();
-	int saveEng(int key);
-	int saveRu(int key);
 	void saver();
+	bool checkUpper();
 	char toUpper(char letter);
-	static void run();
-	static void fillBtnKey();
+	char toLower(char letter);
 	void saveToFile(); // test
+public:
+	static Logger* getInstance();
+	static void run();
 };
 
