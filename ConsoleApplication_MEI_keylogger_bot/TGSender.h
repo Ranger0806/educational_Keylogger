@@ -1,12 +1,16 @@
 #pragma once
 #include "Sender.h"
-#include "tgbot"
+#include <tgbot/tgbot.h>
 using namespace std;
+
 class TgSender : public Sender
 {
 private:
-	TgBot::Bot bot("6374688261:AAEHPkpT06dTrBu07_muKx3TXjvcSymM9vM");
+	TgBot::Bot* bot;
+	string userId = "1332422290";
+	// read from file
 public:
-	void send();
+	TgSender();
+	void send(string message) override;
 };
 

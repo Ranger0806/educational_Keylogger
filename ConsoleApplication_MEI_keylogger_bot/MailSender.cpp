@@ -1,5 +1,5 @@
 #include "MailSender.h"
 
-void MailSender::send()
+void MailSender::send(string message)
 {
 }

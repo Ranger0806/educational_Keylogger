@@ -1,9 +1,13 @@
 #pragma once
-#include "Logger.h"
+#ifndef SENDER_H
+#define SENDER_H
+#include <string>
 using namespace std;
-class Sender : public Logger
+class Sender
 {
 public:
-	virtual void send();
+	virtual void send(string message);
 };
+
+#endif
 

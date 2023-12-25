@@ -135,6 +135,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="ConsoleApplication_MEI_keylogger_bot.cpp" />
+    <ClCompile Include="FabricSender.cpp" />
     <ClCompile Include="GUI.cpp" />
     <ClCompile Include="Logger.cpp" />
     <ClCompile Include="MailSender.cpp" />
@@ -142,6 +143,7 @@
     <ClCompile Include="TGSender.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="FabricSender.h" />
     <ClInclude Include="GUI.h" />
     <ClInclude Include="Logger.h" />
     <ClInclude Include="MailSender.h" />

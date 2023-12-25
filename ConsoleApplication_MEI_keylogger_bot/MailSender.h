@@ -3,6 +3,6 @@
 class MailSender : public Sender
 {
 public:
-	void send();
+	void send(string message) override;
 };
 
