@@ -2,8 +2,9 @@
 
 Logger* Logger::instance = NULL;
 LANGID Logger::langId = 9;
-map <int, vector<char>> btnKeyRu = {};
-map <int, vector<char>> btnKeyEn = {};
+map <int, vector<char>> Logger::btnKeyEn = {};
+map <int, vector<char>> Logger::btnKeyRu = {};
+
 
 Logger::Logger() {
     if ((GetKeyState(VK_CAPITAL) & 0x0001) != 0) {
@@ -555,7 +556,11 @@ void Logger::run()
 void Logger::fillBtnKey() {
     map<char, char> enToRu = { {'q', 'й'}, {'w', 'ц'}};
     for (int i = 32; i <= 125; i++) {
-        btnKeyEn.insert({{i, {char(i)}}});
+        for (map<int, vector<char>>::iterator it = btnKeyEn.begin();
+            it != btnKeyEn.end(); ++it) {
+            cout << it->first << endl;
+        }
+        //btnKeyEn.insert({{i, {char(i)}}});
         //Logger::btnKeyRu.insert(pair<int, vector<char>>(i, { enToRu.at(char(i)) }));
     }
 }
