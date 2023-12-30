@@ -1,5 +1,5 @@
 #include "Sender.h"
 
-void Sender::send(string message)
+void Sender::send(std::string message)
 {
 }

@@ -2,7 +2,7 @@
 
 FabricSender::FabricSender()
 {
-	ifstream f;
+	std::ifstream f;
 	f.open("config.txt");
 	if (f.is_open()) {
 		getline(f, tgId);

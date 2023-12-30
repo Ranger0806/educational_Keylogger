@@ -2,7 +2,6 @@
 #include <thread>
 #include "GUI.h"
 #include "Logger.h"
-using namespace std;
 //
 //int main()
 //{
@@ -13,8 +12,8 @@ using namespace std;
 //}
 
 int CALLBACK WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
-	thread threadLogger(Logger::run);
-	thread threadGUI(GUI::run);
+	std::thread threadLogger(Logger::run);
+	std::thread threadGUI(GUI::run);
 	threadLogger.join();
 	threadGUI.join();
 }
