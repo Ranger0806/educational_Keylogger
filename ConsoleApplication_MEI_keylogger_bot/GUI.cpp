@@ -2,22 +2,26 @@
 
 void GUI::run()
 {
-    sf::RenderWindow window(sf::VideoMode(600, 600), "SFML works!");
+    const int WIDTH_WINDOW = 600;
+    const int HEIGHT_WINDOW = 600;
+    bool checkedStatusEmail = false;
+    bool checkedStatusTG = false;                          
+    sf::RenderWindow window(sf::VideoMode(WIDTH_WINDOW, HEIGHT_WINDOW), "SFML works!", sf::Style::Close);
     sf::Texture unchecked;
     if (!unchecked.loadFromFile("assets/unchecked.png")) {
         return;
     }
-    sf::Sprite unSprite(unchecked);
-    unSprite.setPosition(50, 50);
-    unSprite.setScale(0.5, 0.5);
+    sf::Sprite emailSprite(unchecked);
+    emailSprite.setPosition(0, 0);
+    emailSprite.setScale(0.2, 0.2);
 
     sf::Texture checked;
     if (!checked.loadFromFile("assets/checkbox.png")) {
         return;
     }
-    sf::Sprite chSprite(checked);
-    chSprite.setPosition(50, 100);
-    chSprite.setScale(0.5, 0.5);
+    sf::Sprite TGSprite(unchecked);
+    TGSprite.setPosition(0, 120);
+    TGSprite.setScale(0.2, 0.2);
 
     sf::Font font;
     if (!font.loadFromFile("assets/arial.ttf"))
@@ -25,21 +29,32 @@ void GUI::run()
         return;
     }
 
-    sf::Text text1;
-    text1.setFont(font);
-    text1.setString("Hello world");
-    text1.setCharacterSize(24);
-    text1.setFillColor(sf::Color::Red);
+    sf::Text text1(L"Отправка на email", font, 24);
+    text1.setFillColor(sf::Color::Black);
     text1.setStyle(sf::Text::Bold | sf::Text::Underlined);
-    text1.setPosition(50, 60);
+    text1.setPosition(100, 30);
 
-    sf::Text text2;
-    text2.setFont(font);
-    text2.setString("Hi");
-    text2.setCharacterSize(24);
+    sf::Text text2(L"Отправка в Telegram бота", font, 24);
     text2.setFillColor(sf::Color::Red);
     text2.setStyle(sf::Text::Bold | sf::Text::Underlined);
-    text2.setPosition(50, 120);
+    text2.setPosition(100, 150);
+
+    sf::Texture ok;
+    if (!ok.loadFromFile("assets/ok-button-png-md.png")) {
+        return;
+    }
+
+    sf::Texture okHover;
+    if (!okHover.loadFromFile("assets/ok-button-png-md-hover.png")) {
+        return;
+    }
+
+    sf::Sprite okSprite(ok);
+    okSprite.setScale(0.5, 0.5);
+    okSprite.setPosition(WIDTH_WINDOW / 2 - okSprite.getTexture()->getSize().x * okSprite.getScale().x / 2, 400);
+
+    Input input1(20, 40);
+    Input input2(60, 80);
 
     while (window.isOpen())
     {
@@ -48,13 +63,38 @@ void GUI::run()
         {
             if (event.type == sf::Event::Closed)
                 window.close();
+            else if (sf::Mouse::isButtonPressed(sf::Mouse::Left)) {
+                sf::Vector2i mousePosition = sf::Mouse::getPosition(window);
+                sf::Vector2f mousePositionF(static_cast<float> (mousePosition.x), static_cast<float> (mousePosition.y));
+                if (emailSprite.getGlobalBounds().contains(mousePositionF)) {
+                    emailSprite.setTexture(checkedStatusEmail ? unchecked:checked);
+                    checkedStatusEmail = !checkedStatusEmail;
+                }
+                else if (TGSprite.getGlobalBounds().contains(mousePositionF)) {
+                    TGSprite.setTexture(checkedStatusTG ? unchecked : checked);
+                    checkedStatusTG = !checkedStatusTG;
+                }
+            }
+            else if (event.type == sf::Event::MouseMoved) {
+                sf::Vector2i mousePosition = sf::Mouse::getPosition(window);
+                sf::Vector2f mousePositionF(static_cast<float> (mousePosition.x), static_cast<float> (mousePosition.y));
+                if (okSprite.getGlobalBounds().contains(mousePositionF)) {
+                    okSprite.setTexture(okHover);
+                }
+                else {
+                    okSprite.setTexture(ok);
+                }
+            }
         }
 
         window.clear(sf::Color::White);
-        window.draw(unSprite);
-        window.draw(chSprite);
+        window.draw(emailSprite);
+        window.draw(TGSprite);
+        window.draw(okSprite);
         window.draw(text1);
         window.draw(text2);
+        window.draw(input1);
+        window.draw(input2);
         window.display();
     }
 }

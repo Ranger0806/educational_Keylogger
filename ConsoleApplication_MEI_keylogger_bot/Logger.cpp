@@ -177,8 +177,6 @@ void Logger::saver() {
                 break;
 
             case VK_OEM_COMMA:
-                //изменила на русский символ (аналогично остальные)
-                //todo проверка на большую букву! 
                 if (LOWORD(kLayout) == rusLangId) {
                     if (checkUpper()) {
                         instance->simbols += "Б";
