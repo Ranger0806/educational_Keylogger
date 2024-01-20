@@ -53,8 +53,8 @@ void GUI::run()
     okSprite.setScale(0.5, 0.5);
     okSprite.setPosition(WIDTH_WINDOW / 2 - okSprite.getTexture()->getSize().x * okSprite.getScale().x / 2, 400);
 
-    Input input1(20, 40);
-    Input input2(60, 80);
+    Input input1(310, 20);
+    Input input2(400, 140);
 
     while (window.isOpen())
     {
@@ -74,6 +74,14 @@ void GUI::run()
                     TGSprite.setTexture(checkedStatusTG ? unchecked : checked);
                     checkedStatusTG = !checkedStatusTG;
                 }
+                else if (input1.getGlobalBound().contains(mousePositionF)) {
+                    input1.setActive();
+                    input2.dActive();
+                }
+                else if (input2.getGlobalBound().contains(mousePositionF)) {
+                    input2.setActive();
+                    input1.dActive();
+                }
             }
             else if (event.type == sf::Event::MouseMoved) {
                 sf::Vector2i mousePosition = sf::Mouse::getPosition(window);
@@ -84,6 +92,10 @@ void GUI::run()
                 else {
                     okSprite.setTexture(ok);
                 }
+            }
+            else if (event.type == sf::Event::KeyPressed) {
+                std::string str = sf::Keyboard::getDescription(event.key.scancode).toAnsiString();
+                int a = 5;
             }
         }
 
