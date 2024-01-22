@@ -29,11 +29,17 @@ Input::Input(float x, float y)
 void Input::draw(sf::RenderTarget& target, sf::RenderStates states) const
 {
 	target.draw(*background, states);
+	widgetText->setString(text);
 	target.draw(*widgetText, states);
 	if (active && int(clock->getElapsedTime().asSeconds()) % 2 == 0) {
-		cursor->setPosition(positionTextX, positionTextY);
+		cursor->setPosition(positionTextX + widgetText->getLocalBounds().width, positionTextY);
 		target.draw(*cursor, states);
 	}
+}
+
+void Input::changeText(std::string simbol)
+{
+	text += simbol;
 }
 
 void Input::dActive()
@@ -44,6 +50,18 @@ void Input::dActive()
 void Input::setActive()
 {
 	active = true;
+}
+
+bool Input::isActive()
+{
+	return active;
+}
+
+void Input::remLast()
+{
+	if (text.size() > 0) {
+		text = text.substr(0, text.size() - 1);
+	}
 }
 
 sf::FloatRect Input::getGlobalBound() const

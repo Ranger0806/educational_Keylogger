@@ -20,9 +20,11 @@ private:
 public:
 	Input(float x, float y);
 	void draw(sf::RenderTarget& target, sf::RenderStates states) const;
-	void changeText(char simbol);
+	void changeText(std::string simbol);
 	void dActive();
 	void setActive();
+	bool isActive();
+	void remLast();
 	sf::FloatRect getGlobalBound() const;
 };
 

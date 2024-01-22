@@ -1,5 +1,20 @@
 #include "GUI.h"
 
+std::map<std::string, std::string> spesialSimbols{
+    std::pair<std::string, std::string>{"1", "!"},
+    std::pair<std::string, std::string>{"2", "@"},
+    std::pair<std::string, std::string>{"3", "#"},
+    std::pair<std::string, std::string>{"4", "$"},
+    std::pair<std::string, std::string>{"5", "%"},
+    std::pair<std::string, std::string>{"6", "^"},
+    std::pair<std::string, std::string>{"7", "&"},
+    std::pair<std::string, std::string>{"8", "*"},
+    std::pair<std::string, std::string>{"9", "("},
+    std::pair<std::string, std::string>{"0", ")"},
+    std::pair<std::string, std::string>{"=", "+"},
+    std::pair<std::string, std::string>{"-", "_"}
+};
+
 void GUI::run()
 {
     const int WIDTH_WINDOW = 600;
@@ -93,10 +108,79 @@ void GUI::run()
                     okSprite.setTexture(ok);
                 }
             }
-            else if (event.type == sf::Event::KeyPressed) {
+            else if (event.type == sf::Event::KeyPressed && event.key.scancode >= sf::Keyboard::Scan::Scancode::A && 
+                     event.key.scancode <= sf::Keyboard::Scan::Scancode::Z) {
                 std::string str = sf::Keyboard::getDescription(event.key.scancode).toAnsiString();
-                int a = 5;
+                if (!event.key.shift && event.key.scancode >= sf::Keyboard::Scan::Scancode::A &&
+                    event.key.scancode <= sf::Keyboard::Scan::Scancode::Z) {
+                    str[0] = str[0] + 32;
+                }
+                if (input1.isActive()) {
+                    input1.changeText(str);
+                }
+                else if (input2.isActive()) {
+                    input2.changeText(str);
+                }
+                // to do shift with digits (change to spesial simbols);
             }
+            else if (event.type == sf::Event::KeyPressed && event.key.scancode == sf::Keyboard::Scan::Scancode::Backspace) {
+                if (input1.isActive()) {
+                    input1.remLast();
+                }
+                else if (input2.isActive()) {
+                    input2.remLast();
+                }
+            }
+            else if (event.type == sf::Event::KeyPressed && event.key.scancode >= sf::Keyboard::Scan::Scancode::Num1 &&
+                event.key.scancode <= sf::Keyboard::Scan::Scancode::Num0) {
+                std::string str_digit = sf::Keyboard::getDescription(event.key.scancode).toAnsiString();
+                if (input1.isActive()) {
+                    if (event.key.shift) {
+                        input1.changeText(spesialSimbols[str_digit]);
+                    }
+                    else {
+                        input1.changeText(str_digit);
+                    }
+                }
+                else if (input2.isActive()) {
+                    if (event.key.shift) {
+                        input2.changeText(spesialSimbols[str_digit]);
+                    }
+                    else {
+                        input2.changeText(str_digit);
+                    }
+                }
+            }
+            else if (event.type == sf::Event::KeyPressed && event.key.scancode == sf::Keyboard::Scan::Scancode::Equal ||
+                event.key.scancode == sf::Keyboard::Scan::Scancode::Hyphen) {
+                std::string str_digit = sf::Keyboard::getDescription(event.key.scancode).toAnsiString();
+                if (input1.isActive()) {
+                    if (event.key.shift) {
+                        input1.changeText(spesialSimbols[str_digit]);
+                    }
+                    else if (!event.key.shift) {
+                        input1.changeText(str_digit);
+                    }
+                }
+                else if (input2.isActive()) {
+                    if (event.key.shift) {
+                        input2.changeText(spesialSimbols[str_digit]);
+                    }
+                    else if (!event.key.shift) {
+                        input2.changeText(str_digit);
+                    }
+                }
+            }
+            else if (event.type == sf::Event::KeyPressed && event.key.scancode == sf::Keyboard::Scan::Scancode::Period) {
+                std::string str_digit = sf::Keyboard::getDescription(event.key.scancode).toAnsiString();
+                if (input1.isActive()) {
+                    input1.changeText(str_digit);
+                }
+                else if (input2.isActive()) {
+                    input2.changeText(str_digit);
+                }
+            }
+                
         }
 
         window.clear(sf::Color::White);
