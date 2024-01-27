@@ -21,7 +21,8 @@ void GUI::run()
     const int HEIGHT_WINDOW = 600;
     bool checkedStatusEmail = false;
     bool checkedStatusTG = false;                          
-    sf::RenderWindow window(sf::VideoMode(WIDTH_WINDOW, HEIGHT_WINDOW), "SFML works!", sf::Style::Close);
+    sf::RenderWindow window(sf::VideoMode(WIDTH_WINDOW, HEIGHT_WINDOW), "KeyLogger", sf::Style::Close);
+    window.setVerticalSyncEnabled(true);
     sf::Texture unchecked;
     if (!unchecked.loadFromFile("assets/unchecked.png")) {
         return;
@@ -71,6 +72,20 @@ void GUI::run()
     Input input1(310, 20);
     Input input2(400, 140);
 
+    sf::Texture aboutUnPressed;
+    if (!aboutUnPressed.loadFromFile("assets/info.png")) {
+        return;
+    }
+
+    sf::Texture aboutPressed;
+    if (!aboutPressed.loadFromFile("assets/info-hover.png")) {
+        return;
+    }
+
+    sf::Sprite aboutSpr(aboutUnPressed);
+    aboutSpr.setScale(0.2, 0.2);
+    aboutSpr.setPosition(10, 400);
+
     while (window.isOpen())
     {
         sf::Event event;
@@ -82,7 +97,7 @@ void GUI::run()
                 sf::Vector2i mousePosition = sf::Mouse::getPosition(window);
                 sf::Vector2f mousePositionF(static_cast<float> (mousePosition.x), static_cast<float> (mousePosition.y));
                 if (emailSprite.getGlobalBounds().contains(mousePositionF)) {
-                    emailSprite.setTexture(checkedStatusEmail ? unchecked:checked);
+                    emailSprite.setTexture(checkedStatusEmail ? unchecked : checked);
                     checkedStatusEmail = !checkedStatusEmail;
                 }
                 else if (TGSprite.getGlobalBounds().contains(mousePositionF)) {
@@ -97,6 +112,10 @@ void GUI::run()
                     input2.setActive();
                     input1.dActive();
                 }
+                else if (aboutSpr.getGlobalBounds().contains(mousePositionF)) {
+                    std::thread infoWindowThread(InfoWindow::run, std::ref(window));
+                    infoWindowThread.join();
+                }
             }
             else if (event.type == sf::Event::MouseMoved) {
                 sf::Vector2i mousePosition = sf::Mouse::getPosition(window);
@@ -106,6 +125,12 @@ void GUI::run()
                 }
                 else {
                     okSprite.setTexture(ok);
+                }
+                if (aboutSpr.getGlobalBounds().contains(mousePositionF)) {
+                    aboutSpr.setTexture(aboutPressed);
+                }
+                else {
+                    aboutSpr.setTexture(aboutUnPressed);
                 }
             }
             else if (event.type == sf::Event::KeyPressed && event.key.scancode >= sf::Keyboard::Scan::Scancode::A && 
@@ -121,7 +146,6 @@ void GUI::run()
                 else if (input2.isActive()) {
                     input2.changeText(str);
                 }
-                // to do shift with digits (change to spesial simbols);
             }
             else if (event.type == sf::Event::KeyPressed && event.key.scancode == sf::Keyboard::Scan::Scancode::Backspace) {
                 if (input1.isActive()) {
@@ -191,6 +215,7 @@ void GUI::run()
         window.draw(text2);
         window.draw(input1);
         window.draw(input2);
+        window.draw(aboutSpr);
         window.display();
     }
 }

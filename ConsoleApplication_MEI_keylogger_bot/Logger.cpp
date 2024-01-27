@@ -258,7 +258,7 @@ void Logger::saver() {
                     else {
                         d = toLower(d);
                     }
-                    instance->simbols +=  d;
+                    instance->simbols += d;
                 }
                 else if (c >= VK_NUMPAD0 && c <= VK_NUMPAD9)
                     instance->simbols += (c - 96);
