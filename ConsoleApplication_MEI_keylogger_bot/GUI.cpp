@@ -116,6 +116,13 @@ void GUI::run()
                     std::thread infoWindowThread(InfoWindow::run, std::ref(window));
                     infoWindowThread.join();
                 }
+                else if (okSprite.getGlobalBounds().contains(mousePositionF)) {
+                    std::ofstream f;
+                    f.open("config.txt");
+                    if (f.is_open()) {
+                    }
+                    f.close();
+                }
             }
             else if (event.type == sf::Event::MouseMoved) {
                 sf::Vector2i mousePosition = sf::Mouse::getPosition(window);
@@ -203,8 +210,7 @@ void GUI::run()
                 else if (input2.isActive()) {
                     input2.changeText(str_digit);
                 }
-            }
-                
+            }     
         }
 
         window.clear(sf::Color::White);

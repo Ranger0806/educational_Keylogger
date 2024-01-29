@@ -26,8 +26,16 @@ void InfoWindow::run(sf::RenderWindow& rwindow)
 		sf::Event event;
 		while (window.pollEvent(event)) {
 			if (event.type == sf::Event::Closed)
-				window.requestFocus();
-				/*window.close();*/
+				/*window.requestFocus();*/
+				window.close();
+			if (event.type == sf::Event::LostFocus)
+			{
+				if (rwindow.hasFocus()) {
+					rwindow.requestFocus();
+					rwindow.setActive(true);
+					window.setActive(false);
+				}
+			}
 		}
 		window.clear(sf::Color::White);
 		window.draw(aboutText);

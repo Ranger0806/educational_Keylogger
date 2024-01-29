@@ -4,6 +4,7 @@
 #include <SFML/Graphics.hpp>
 #include "InfoWindow.h"
 #include <thread>
+#include <fstream>
 class GUI
 {
 public:
