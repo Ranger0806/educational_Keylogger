@@ -5,6 +5,7 @@
 #include "InfoWindow.h"
 #include <thread>
 #include <fstream>
+#include <regex>
 class GUI
 {
 public:

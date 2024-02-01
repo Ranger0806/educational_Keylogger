@@ -25,6 +25,7 @@ public:
 	void setActive();
 	bool isActive();
 	void remLast();
+	std::string getText();
 	sf::FloatRect getGlobalBound() const;
 };
 

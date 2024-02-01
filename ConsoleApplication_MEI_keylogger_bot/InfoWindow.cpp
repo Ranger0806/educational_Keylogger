@@ -26,19 +26,36 @@ void InfoWindow::run(sf::RenderWindow& rwindow)
 		sf::Event event;
 		while (window.pollEvent(event)) {
 			if (event.type == sf::Event::Closed)
-				/*window.requestFocus();*/
 				window.close();
 			if (event.type == sf::Event::LostFocus)
 			{
 				if (rwindow.hasFocus()) {
-					rwindow.requestFocus();
-					rwindow.setActive(true);
-					window.setActive(false);
+					window.requestFocus();
+					/*rwindow.setActive(true);
+					window.setActive(false);*/
 				}
 			}
 		}
+		mainWinMSGHandle(rwindow, window);
 		window.clear(sf::Color::White);
 		window.draw(aboutText);
 		window.display();
+	}
+}
+
+void InfoWindow::mainWinMSGHandle(sf::Window& window, sf::Window& child)
+{
+	sf::Event event;
+	while (window.pollEvent(event))
+	{
+		if (event.type == sf::Event::Closed)
+		{
+			child.close();
+			window.close();
+		}
+		if (event.type == sf::Event::GainedFocus)
+		{
+			child.requestFocus();
+		}
 	}
 }

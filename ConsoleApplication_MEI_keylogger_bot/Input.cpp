@@ -64,6 +64,11 @@ void Input::remLast()
 	}
 }
 
+std::string Input::getText()
+{
+	return text;
+}
+
 sf::FloatRect Input::getGlobalBound() const
 {
 	return background->getGlobalBounds();

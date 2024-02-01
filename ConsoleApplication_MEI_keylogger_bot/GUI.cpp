@@ -67,7 +67,8 @@ void GUI::run()
 
     sf::Sprite okSprite(ok);
     okSprite.setScale(0.5, 0.5);
-    okSprite.setPosition(WIDTH_WINDOW / 2 - okSprite.getTexture()->getSize().x * okSprite.getScale().x / 2, 400);
+    float xbtn = WIDTH_WINDOW / 2 - okSprite.getTexture()->getSize().x * okSprite.getScale().x / 2;
+    okSprite.setPosition(xbtn, 400);
 
     Input input1(310, 20);
     Input input2(400, 140);
@@ -85,6 +86,9 @@ void GUI::run()
     sf::Sprite aboutSpr(aboutUnPressed);
     aboutSpr.setScale(0.2, 0.2);
     aboutSpr.setPosition(10, 400);
+
+    sf::Text textAlert(L"", font, 16);
+    textAlert.setPosition(xbtn, 350);
 
     while (window.isOpen())
     {
@@ -113,15 +117,45 @@ void GUI::run()
                     input1.dActive();
                 }
                 else if (aboutSpr.getGlobalBounds().contains(mousePositionF)) {
-                    std::thread infoWindowThread(InfoWindow::run, std::ref(window));
-                    infoWindowThread.join();
+                    /*std::thread infoWindowThread(InfoWindow::run, std::ref(window));
+                    infoWindowThread.join();*/
+                    InfoWindow::run(window);
                 }
                 else if (okSprite.getGlobalBounds().contains(mousePositionF)) {
-                    std::ofstream f;
-                    f.open("config.txt");
-                    if (f.is_open()) {
+                    std::string t1 = input1.getText();
+                    std::string t2 = input2.getText();
+                    std::regex digitsRegex = std::regex("[0-9]+");
+                    std::regex emailRegex = std::regex("([_a-z0-9-]+(\.[_a-z0-9-]+)*@[a-z0-9-]+(\.[a-z0-9-]+)*(\.[a-z]{2,4}))");
+                    if (!checkedStatusEmail && !checkedStatusTG) {
+                        textAlert.setString(L"Выберите хотя бы один из пунктов");
+                        textAlert.setFillColor(sf::Color::Red);
                     }
-                    f.close();
+                    else if (std::regex_match(t1, emailRegex) && checkedStatusEmail && std::regex_match(t2, digitsRegex) && checkedStatusTG || 
+                        std::regex_match(t1, emailRegex) && checkedStatusEmail && !checkedStatusTG || std::regex_match(t2, digitsRegex) && checkedStatusTG && !checkedStatusEmail) {
+                        textAlert.setString(L"Программа работает!");
+                        textAlert.setFillColor(sf::Color::Green);
+                        std::ofstream f;
+                        f.open("config.txt");
+                        if (f.is_open()) {
+                            if (checkedStatusEmail) {
+                                f << input1.getText() << std::endl;
+                            }
+                            else {
+                                f << "0" << std::endl;
+                            }
+                            if (checkedStatusTG) {
+                                f << input2.getText() << std::endl;
+                            }
+                            else {
+                                f << "0" << std::endl;
+                            }
+                        }
+                        f.close();
+                    }
+                    else {
+                        textAlert.setString(L"Некорректные данные!");
+                        textAlert.setFillColor(sf::Color::Red);
+                    }
                 }
             }
             else if (event.type == sf::Event::MouseMoved) {
@@ -219,6 +253,7 @@ void GUI::run()
         window.draw(okSprite);
         window.draw(text1);
         window.draw(text2);
+        window.draw(textAlert);
         window.draw(input1);
         window.draw(input2);
         window.draw(aboutSpr);
