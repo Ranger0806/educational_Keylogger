@@ -15,12 +15,18 @@ std::map<std::string, std::string> spesialSimbols{
     std::pair<std::string, std::string>{"-", "_"}
 };
 
+std::string GUI::filename = "config.txt";
+
 void GUI::run()
 {
     const int WIDTH_WINDOW = 600;
     const int HEIGHT_WINDOW = 600;
     bool checkedStatusEmail = false;
-    bool checkedStatusTG = false;                          
+    bool checkedStatusTG = false;  
+    bool checkStart = false;
+    bool activeStart = false;
+    std::string emailDefault;
+    std::string tgDefault;
     sf::RenderWindow window(sf::VideoMode(WIDTH_WINDOW, HEIGHT_WINDOW), "KeyLogger", sf::Style::Close);
     window.setVerticalSyncEnabled(true);
     sf::Texture unchecked;
@@ -90,6 +96,39 @@ void GUI::run()
     sf::Text textAlert(L"", font, 16);
     textAlert.setPosition(xbtn, 350);
 
+    sf::Texture startKey;
+    if (!startKey.loadFromFile("assets/start.png")) {
+        return;
+    }
+
+    sf::Texture stopKey;
+    if (!stopKey.loadFromFile("assets/stop.png")) {
+        return;
+    }
+
+    sf::Sprite keyloggerBtn(startKey);
+    keyloggerBtn.setScale(0.4, 0.4);
+    keyloggerBtn.setPosition(400, 400);
+
+    std::ifstream setting(filename);
+    if (setting.is_open()) {
+        setting >> emailDefault;
+        setting >> tgDefault;
+        if (emailDefault != "0") {
+            input1.changeText(emailDefault);
+            emailSprite.setTexture(checked);
+            checkedStatusEmail = !checkedStatusEmail;
+            activeStart = true;
+        }
+        if (tgDefault != "0") {
+            input2.changeText(tgDefault);
+            TGSprite.setTexture(checked);
+            checkedStatusTG = !checkedStatusTG;
+            activeStart = true;
+        }
+    }
+    setting.close();
+
     while (window.isOpen())
     {
         sf::Event event;
@@ -132,7 +171,7 @@ void GUI::run()
                     }
                     else if (std::regex_match(t1, emailRegex) && checkedStatusEmail && std::regex_match(t2, digitsRegex) && checkedStatusTG || 
                         std::regex_match(t1, emailRegex) && checkedStatusEmail && !checkedStatusTG || std::regex_match(t2, digitsRegex) && checkedStatusTG && !checkedStatusEmail) {
-                        textAlert.setString(L"Программа работает!");
+                        textAlert.setString(L"Настройки сохранены!");
                         textAlert.setFillColor(sf::Color::Green);
                         std::ofstream f;
                         f.open("config.txt");
@@ -151,10 +190,21 @@ void GUI::run()
                             }
                         }
                         f.close();
+                        activeStart = true;
                     }
                     else {
                         textAlert.setString(L"Некорректные данные!");
                         textAlert.setFillColor(sf::Color::Red);
+                    }
+                }
+                else if (keyloggerBtn.getGlobalBounds().contains(mousePositionF) && activeStart) {
+                    keyloggerBtn.setTexture(checkStart ? stopKey : startKey);
+                    checkStart = !checkStart;
+                    if (checkStart) {
+                        Runner::exit = 0;
+                    }
+                    else {
+                        Runner::exit = 1;
                     }
                 }
             }
@@ -247,6 +297,12 @@ void GUI::run()
             }     
         }
 
+        if (activeStart) {
+            keyloggerBtn.setColor(sf::Color(255, 255, 255, 255));
+        }
+        else {
+            keyloggerBtn.setColor(sf::Color(255, 255, 255, 125));
+        }
         window.clear(sf::Color::White);
         window.draw(emailSprite);
         window.draw(TGSprite);
@@ -257,6 +313,7 @@ void GUI::run()
         window.draw(input1);
         window.draw(input2);
         window.draw(aboutSpr);
+        window.draw(keyloggerBtn);
         window.display();
     }
 }

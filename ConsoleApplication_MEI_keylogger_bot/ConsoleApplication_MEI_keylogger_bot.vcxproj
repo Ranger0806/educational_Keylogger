@@ -141,6 +141,7 @@
     <ClCompile Include="Input.cpp" />
     <ClCompile Include="Logger.cpp" />
     <ClCompile Include="MailSender.cpp" />
+    <ClCompile Include="Runner.cpp" />
     <ClCompile Include="Sender.cpp" />
     <ClCompile Include="TGSender.cpp" />
   </ItemGroup>
@@ -152,6 +153,7 @@
     <ClInclude Include="Logger.h" />
     <ClInclude Include="MailSender.h" />
     <ClInclude Include="resource.h" />
+    <ClInclude Include="Runner.h" />
     <ClInclude Include="Sender.h" />
     <ClInclude Include="TgSender.h" />
   </ItemGroup>

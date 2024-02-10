@@ -14,10 +14,10 @@ Sender** FabricSender::createSenders()
 {
 	Sender** senders = new Sender * [2];
 	if (email != "0") {
-		senders[0] = new MailSender();
+		senders[0] = new MailSender(email);
 	}
 	if (tgId != "0") {
-		senders[1] = new TgSender();
+		senders[1] = new TgSender(tgId);
 	}
 	return senders;
 }

