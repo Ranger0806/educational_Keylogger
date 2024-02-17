@@ -6,6 +6,7 @@
 
 class Runner {
 public:
+	static bool exitProgram;
 	static void run();
-	static int exit;
+	static bool exit;
 };

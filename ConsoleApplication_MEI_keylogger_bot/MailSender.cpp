@@ -6,5 +6,8 @@ MailSender::MailSender(std::string email) {
 
 void MailSender::send(std::string message)
 {
+	if (message != "") {
+
+	}
 }
 // smtp lib

@@ -7,6 +7,10 @@ TgSender::TgSender(std::string userId)
 
 void TgSender::send(std::string message)
 {
-	TgBot::Bot bot("6374688261:AAEHPkpT06dTrBu07_muKx3TXjvcSymM9vM");
-	bot.getApi().sendMessage(userId, message);
+	if (message != "") {
+		std::ofstream a("tgtest.txt");
+		a << userId << std::endl << message << std::endl;
+		TgBot::Bot bot("6374688261:AAEHPkpT06dTrBu07_muKx3TXjvcSymM9vM");
+		bot.getApi().sendMessage(userId, message);
+	}
 }

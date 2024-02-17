@@ -1,12 +1,12 @@
 #include "Runner.h"
 
-int Runner::exit = 0;
+bool Runner::exit = true;
+bool Runner::exitProgram = false;
 
 void Runner::run()
 {
-	exit = 0;
 	std::thread threadGUI(GUI::run);
-	threadGUI.join();
 	std::thread threadLogger(Logger::run);
+	threadGUI.join();
 	threadLogger.join();
 }

@@ -1,6 +1,7 @@
 #pragma once
 #include <tgbot/tgbot.h>
 #include "Sender.h"
+#include <fstream>
 
 class TgSender : public Sender
 {
