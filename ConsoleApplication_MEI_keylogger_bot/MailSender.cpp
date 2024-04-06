@@ -16,9 +16,7 @@ void MailSender::send(std::string text)
 
         try {
             SharedPtr<InvalidCertificateHandler> pCert = new AcceptCertificateHandler(false);
-            Context::Ptr pContext = new Poco::Net::Context(Context::TLS_SERVER_USE, "", "",
-                "ca.crt", Context::VERIFY_STRICT, 9, true,
-                "ALL:!ADH:!LOW:!EXP:!MD5:@STRENGTH");
+            Context::Ptr pContext = new Poco::Net::Context(Context::TLS_CLIENT_USE, "", Context::VERIFY_NONE, 9, true);
             SSLManager::instance().initializeClient(0, pCert, pContext);
 
             SecureStreamSocket pSSLSocket(pContext);

@@ -34,9 +34,9 @@ class MailSender : public Sender
 private:
 	std::string monthes[12] = { "Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec" };
 	std::string email = "0";
-	const std::string FROM_ADDR = "kraka.tau0806@yandex.ru";
-	const string USERNAME = "kraka.tau0806@yandex.ru";
-	const string PASSWORD = "brslgluyfwnmomfg";
+	const std::string FROM_ADDR = "kraka.tau0806@ya.ru";
+	const string USERNAME = "kraka.tau0806@ya.ru";
+	const string PASSWORD = "bnrlwtceqdeqhgsh";
 public:
 	static char* payload_text;
 	struct upload_status {
